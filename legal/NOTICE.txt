@@ -1,0 +1,7 @@
+This software uses the Qt framework, which is licensed under the GNU Lesser General Public License v3.0 (LGPLv3).
+You may obtain the Qt framework source code at https://github.com/qt.
+For more information, please see the LGPL-3.0.txt file or visit https://www.qt.io.
+
+Please notice that Qt contains third-party code that is not provided under the GNU Lesser General Public License (LGPL), but rather under specific licenses from the original authors. This software may possibly link to some of these Qt components depending on your system and specific build of the software. For more information, please visit https://doc.qt.io/qt-6.5/licenses-used-in-qt.html.
+
+Images used in this software were generated using Google Gemini and are used solely for demonstration purposes without commercial intent.

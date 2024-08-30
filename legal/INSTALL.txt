@@ -1,0 +1,16 @@
+In order to build the software, you have to obtain Qt development libraries that may be installed automatically via Qt Online Installer for your operating system. Please refer to https://doc.qt.io/qt-6.5/get-and-install-qt.html. Otherwise, you may utilize your package manager to install Qt. Please refer to your operating system package manuals.
+
+This software is built with CMake. Please create a build directory (e.g. `build`) inside this repository and go into it:
+
+```bash
+mkdir build && cd build
+```
+
+Run `cmake` to configure the project and generate a native build system and then call the build system via CMake to actually compile and link the software:
+
+```bash
+cmake ..
+cmake --build .
+```
+
+CMake should find all the necessary libraries (including the Qt framework) on your system, compile the project and link it with the respective third-party components. You may now run your executable file found in the `build` directory.

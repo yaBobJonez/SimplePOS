@@ -1,0 +1,4 @@
+Copyright © 2024 Mykhailo Stetsiuk
+Licensed under the Academic Free License version 3.0. For more information, please see the AFL-3.0.txt file.
+
+This software uses the Qt framework, which is © The Qt Company Ltd. and other contributors.

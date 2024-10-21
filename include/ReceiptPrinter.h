@@ -24,12 +24,14 @@ public:
     void printField(const QString& key, double value);
     void printText(const QString& text, int flags = Qt::AlignCenter);
     void advanceLine();
+    QString getFilename() const;
 protected:
     QPainter gc;
     int y;
     int pageWidth;
     int pageHeight;
     int lineHeight;
+    QString filename;
 };
 
 inline bool ReceiptPrinter::end() {
@@ -39,6 +41,10 @@ inline bool ReceiptPrinter::end() {
 inline void ReceiptPrinter::printFooter() {
     printText(QDateTime::currentDateTime().toString(Qt::ISODate));
     this->end();
+}
+
+inline QString ReceiptPrinter::getFilename() const {
+    return filename;
 }
 
 #endif //RECEIPTPRINTER_H

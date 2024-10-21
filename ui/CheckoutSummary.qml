@@ -21,7 +21,7 @@ ColumnLayout {
         target: server
         function onFinishTransaction(receiptUrl){
             var timestamp = new Date().getTime();
-            preview.document.source = receiptUrl + "?timestamp=" + timestamp;
+            preview.document.source = "file://" + receiptUrl + "?timestamp=" + timestamp;
             root.status = "success";
         }
     }

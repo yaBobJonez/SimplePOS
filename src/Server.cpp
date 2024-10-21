@@ -9,7 +9,6 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 
-
 Server::Server(CartItemModel& cartModel) : cartModel(cartModel), terminal(nullptr) {
     if (!this->listen(QHostAddress::Any, 43000))
         std::cerr << "[ERROR] Cannot start server.";
@@ -83,8 +82,7 @@ QString Server::printCardReceipt(const QVariantMap& terminalData) const {
     const QString approvalCode = terminalData.value("approvalCode").toString();
 
     ReceiptPrinter gc;
-    gc.setOutputFormat(QPrinter::PdfFormat);
-    gc.setOutputFileName("/home/michael/testWriter.pdf");
+    if (!gc.begin()) return "";
     gc.printHeader();
     gc.printCartItems(cartModel);
     gc.printField(tr("Terminal ID"), "#00001");
@@ -95,14 +93,12 @@ QString Server::printCardReceipt(const QVariantMap& terminalData) const {
     gc.advanceLine();
     gc.printSum(cartModel.totalPrice());
     gc.printFooter();
-
-    return "file:///home/michael/testWriter.pdf";
+    return gc.getFilename();
 }
 
 QString Server::printCashReceipt(const double deposit, const double change) const {
     ReceiptPrinter gc;
-    gc.setOutputFormat(QPrinter::PdfFormat);
-    gc.setOutputFileName("/home/michael/testWriter.pdf");
+    if (!gc.begin()) return "";
     gc.printHeader();
     gc.printCartItems(cartModel);
     gc.printText(tr("Purchase"));
@@ -111,5 +107,5 @@ QString Server::printCashReceipt(const double deposit, const double change) cons
     gc.advanceLine();
     gc.printSum(cartModel.totalPrice());
     gc.printFooter();
-    return "file:///home/michael/testWriter.pdf";
+    return gc.getFilename();
 }

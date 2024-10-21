@@ -3,7 +3,11 @@
 
 #include "ReceiptPrinter.h"
 
+#include <iostream>
+#include <QPrinterInfo>
 #include <QSettings>
+#include <QDir>
+#include <QPrintDialog>
 
 ReceiptPrinter::ReceiptPrinter()
     : y(10)
@@ -11,6 +15,19 @@ ReceiptPrinter::ReceiptPrinter()
     , pageHeight(pageRect(DevicePixel).height()) {}
 
 bool ReceiptPrinter::begin() {
+    if (QPrinterInfo::availablePrinterNames().empty()) {
+        pageWidth = 57.5 / 25.4 * resolution();
+        this->setPageSize(QPageSize(QSize(pageWidth, pageRect(Point).height())));
+        this->setOutputFormat(PdfFormat);
+        const QString dt = QDateTime::currentDateTime().toString("yyyy-MM-dd_hh-mm-ss");
+        if(!QDir().mkpath(QObject::tr("Receipts"))) return false;
+        this->filename = QDir(QObject::tr("Receipts")).absoluteFilePath(dt + ".pdf");
+        this->setOutputFileName(filename);
+    } else {
+        this->setOutputFormat(NativeFormat);
+        QPrintDialog printDialog(this);
+        if (printDialog.exec() != QPrintDialog::Accepted) return false;
+    }
     if(!gc.begin(this)) return false;
     lineHeight = gc.fontMetrics().height();
     return true;
@@ -23,7 +40,6 @@ void ReceiptPrinter::printHeader() {
     const QStringList address = settings.value("address").toString().split('\n');
     const QString taxpayerID = settings.value("taxpayerID").toString();
     settings.endGroup();
-    this->begin();
     printText(entityName);
     for (const QString& line : address) printText(line);
     printText(taxpayerID);
